@@ -24,19 +24,21 @@ var playersRef = database.ref("/players");
 var keyRef = database.ref("/keys");
 
 
+
+
 var playerCount = 0;
 
 var entered = false;
 
 var myPlayerKey;
 
-var firstKey;
-var secondKey;
+var firstKey = "";
+var secondKey = "";
 
 var myWins;
 var myLosses;
 
-var shellfish;
+
 
 
 
@@ -108,6 +110,22 @@ if (playerCount === 2) {
 
 	}
 
+
+keyRef.on("value", function(snap){
+
+//		console.log(snap.child("firstKey").val() + " and " + snap.child("secondKey").val());
+
+		firstKey = snap.child("firstKey").val();
+		secondKey = snap.child("secondKey").val();
+
+	// console.log("inside snap:" + myPlayerKey);
+	// console.log("my value inside : " + firstKey);
+	// console.log(secondKey);
+
+
+
+		//console.log(playersRef.child(firstKey + "/name").val())	;
+	});
 	
 
 $("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent...</h5><br><br>")
@@ -120,6 +138,12 @@ $("#firstInput").slideUp();
 
 $("#titleText").html('<h2 id="titleText">multiplayer rps</h2>')
 
+playersRef.orderByChild("name").on("child_added", function(snapshot) {
+
+	console.log(snapshot.key + " was " + snapshot.val().name + " hahaha ");
+		
+	})
+
 
 entered = true;
 
@@ -130,10 +154,23 @@ playersRef.on("value", function(snapshot) {
 
 	console.log("game begin!");
 
-	playerOneName = snapshot.child(myPlayerKey + "/playerKey").val()
-	console.log(playerOneName);
 
-	
+
+
+	//playerOneName = snapshot.child(myPlayerKey + "/name").val();
+	//console.log(playerOneName);
+
+	//alert(playerOneName);
+/*
+
+	console.log(snapshot);
+
+	alert("this is the first: " + plsWork);
+	alert("this is the 2nd: " +plsWork2);
+
+	console.log("my value before : " + firstKey);
+
+*/
 
 	$(".hiddenOne").removeClass("hiddenOne");
 	$("#waitingRoom").remove();
