@@ -23,6 +23,12 @@ h1 {
   text-align: center;
 }
 
+h5{
+
+	text-align: center;
+	color: green;
+}
+
 h6 { 
 
 margin-top: 0px;
@@ -40,10 +46,52 @@ text-align: center;
 	font-weight: bolder;
 }
 
-.buttonholder {
-
+#joinButton {
+	display:block;
+    margin:auto;
+    width: 100px;
 }
 
+.panel {
+
+	display: none;
+}
+
+#loadingPic {
+
+	display:block;
+    margin:auto;
+    width: 200px;
+    height: auto;
+    margin-top: 0px;
+}
+
+@keyframes flickerAnimation {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+.animate-flicker {
+   -webkit-animation: flickerAnimation 1s infinite;
+   -moz-animation: flickerAnimation 1s infinite;
+   -o-animation: flickerAnimation 1s infinite;
+    animation: flickerAnimation 1s infinite;
+}
 
 </style>
 <body>
@@ -57,6 +105,32 @@ text-align: center;
 <h6>by juan debiedma</h6>
 
 <h6 id="viewerCount">viewers: </h6>
+
+<div  id = "waitingRoom">
+	
+
+</div>
+
+<br>
+<div class = "row">
+		<div class="col-lg-4 col-lg-offset-4">
+			<div class="form-group" id="firstInput">
+                <label for="name-input">Name:</label>
+                <input class="form-control" id="name-input" type="text">
+
+              </div>
+          </div>
+</div>
+
+<div class = "row">
+		
+			<button type="button" class="btn btn-success" id = "joinButton" >Join</button>
+                
+              
+          </div>
+</div>
+
+
 
 <br>
 
@@ -73,7 +147,7 @@ text-align: center;
     <h3>Open Seat!</h3>
     <br>
     <br>
-   <button type="button" class="btn btn-success" style="width: 100px">Join</button>
+   
   </div>
 </div>
 
@@ -108,7 +182,7 @@ text-align: center;
     <h3>Open Seat!</h3>
     <br>
     <br>
-    <button type="button" class="btn btn-success" style="width: 100px">Join</button>
+    
   </div>
 </div>
 
