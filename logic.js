@@ -21,14 +21,24 @@ var connectedRef = database.ref(".info/connected");
 
 var playersRef = database.ref("/players");
 
+var keyRef = database.ref("/keys");
+
+
 var playerCount = 0;
 
 var entered = false;
 
 var myPlayerKey;
 
+var firstKey;
+var secondKey;
+
 var myWins;
 var myLosses;
+
+var shellfish;
+
+
 
 connectionsRef.on("value", function(snap) {
 
@@ -86,21 +96,19 @@ myPlayerKey = adder.key;
 
 console.log(myPlayerKey);
 
-/*if (playerCount = 1) {
+if (playerCount === 1) {
 
-p1key = adder.key ;
+		keyRef.child('firstKey').set(myPlayerKey);
 
-} 
+	}
 
-if (playerCount = 2) {
+if (playerCount === 2) {
 
-	p2key = adder.key;
-}
+		keyRef.child('secondKey').set(myPlayerKey);
 
-console.log("p1 key is " + p1key);
-console.log("p2 key is " + p2key);
+	}
 
-*/
+	
 
 $("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent...</h5><br><br>")
 .append("<img id='loadingPic' src='https://2aih25gkk2pi65s8wfa8kzvi-wpengine.netdna-ssl.com/gmat/wp-content/plugins/magoosh-lazyload-comments-better-ui/assets/img/loading.gif'>");
@@ -116,19 +124,23 @@ $("#titleText").html('<h2 id="titleText">multiplayer rps</h2>')
 entered = true;
 
 playersRef.on("value", function(snapshot) {
+
+	
 	if (playerCount === 2) {
 
 	console.log("game begin!");
 
-	playerOneName = snapshot.child(myPlayerKey + "/playerID").val()
+	playerOneName = snapshot.child(myPlayerKey + "/playerKey").val()
 	console.log(playerOneName);
+
+	
 
 	$(".hiddenOne").removeClass("hiddenOne");
 	$("#waitingRoom").remove();
 
 	$("#player-1-name").html('<h2 class="panel-title" id="player-1-name">Player 1</h2>')
 
-
+	
 
 }	
 
@@ -146,6 +158,8 @@ else {alert("Room is full!")};
 playersRef.on("value", function(snap) {
 
 console.log(snap.numChildren());
+
+
 
 playerCount = snap.numChildren();
 
