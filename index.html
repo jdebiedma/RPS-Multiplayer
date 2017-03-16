@@ -16,11 +16,17 @@
 
 <style type="text/css">
 
+
 h1 {
   margin-top: 0px;
   margin-bottom: 0px;
   font-size: 10vw;
   text-align: center;
+}
+
+h2 {
+
+	font-size: 50px;
 }
 
 h5{
@@ -52,7 +58,7 @@ text-align: center;
     width: 100px;
 }
 
-.panel {
+.hiddenOne {
 
 	display: none;
 }
@@ -100,7 +106,7 @@ text-align: center;
   <br>
   <br>
 
-<h1>multiplayer rps</h1>
+<h1 id="titleText">multiplayer rps</h1>
 <br>
 <h6>by juan debiedma</h6>
 
@@ -116,17 +122,14 @@ text-align: center;
 		<div class="col-lg-4 col-lg-offset-4">
 			<div class="form-group" id="firstInput">
                 <label for="name-input">Name:</label>
-                <input class="form-control" id="name-input" type="text">
+                <input class="form-control" id="name-input" type="text" autofocus>
 
               </div>
           </div>
 </div>
 
 <div class = "row">
-		
 			<button type="button" class="btn btn-success" id = "joinButton" >Join</button>
-                
-              
           </div>
 </div>
 
@@ -136,10 +139,10 @@ text-align: center;
 
 <div class = "row">
 
- <div class="col-lg-4">
-   <div class="panel panel-info">
+ <div class="col-lg-offset-1 col-lg-3">
+   <div class="panel panel-info hiddenOne">
   <div class="panel-heading">
-    <h2 class="panel-title">Player 1</h2>
+    <h2 class="panel-title" id="player-1-name">Player 1</h2>
   </div>
   <div class="panel-body">
     
@@ -155,7 +158,7 @@ text-align: center;
 
 
  <div class="col-lg-4">
-   <div class="panel panel-primary">
+   <div class="panel panel-primary hiddenOne">
   <div class="panel-heading">
     <h2 class="panel-title">Duel!</h2>
   </div>
@@ -171,10 +174,10 @@ text-align: center;
 
   </div><!-- /.col-lg-6 -->
 
-  <div class="col-lg-4">
-   <div class="panel panel-danger">
+  <div class="col-lg-3">
+   <div class="panel panel-danger hiddenOne">
   <div class="panel-heading">
-    <h2 class="panel-title">Player 2</h2>
+    <h2 class="panel-title" id="player-2-name">Player 2</h2>
   </div>
   <div class="panel-body">
     

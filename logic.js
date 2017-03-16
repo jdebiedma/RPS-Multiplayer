@@ -25,7 +25,10 @@ var playerCount = 0;
 
 var entered = false;
 
+var myPlayerKey;
 
+var myWins;
+var myLosses;
 
 connectionsRef.on("value", function(snap) {
 
@@ -54,6 +57,12 @@ connectedRef.on("value", function(snap) {
   }
 });
 
+$("#name-input").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#joinButton").click();
+    }
+});
+
 $("#joinButton").on("click", function(){
 
 var playerName = $("#name-input").val();
@@ -65,13 +74,33 @@ var adder = playersRef.push({
 		
 			name : playerName,
 			wins: 0,
-			losses: 0        
+			losses: 0,
+			playerID: playerCount + 1,
+			playerKey : "none"        
 				
       });
 
 adder.onDisconnect().remove();
 
+myPlayerKey = adder.key;
 
+console.log(myPlayerKey);
+
+/*if (playerCount = 1) {
+
+p1key = adder.key ;
+
+} 
+
+if (playerCount = 2) {
+
+	p2key = adder.key;
+}
+
+console.log("p1 key is " + p1key);
+console.log("p2 key is " + p2key);
+
+*/
 
 $("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent...</h5><br><br>")
 .append("<img id='loadingPic' src='https://2aih25gkk2pi65s8wfa8kzvi-wpengine.netdna-ssl.com/gmat/wp-content/plugins/magoosh-lazyload-comments-better-ui/assets/img/loading.gif'>");
@@ -81,10 +110,34 @@ $("#name-input").val("");
 $("#joinButton").slideUp();
 $("#firstInput").slideUp();
 
+$("#titleText").html('<h2 id="titleText">multiplayer rps</h2>')
+
 
 entered = true;
 
+playersRef.on("value", function(snapshot) {
+	if (playerCount === 2) {
+
+	console.log("game begin!");
+
+	playerOneName = snapshot.child(myPlayerKey + "/playerID").val()
+	console.log(playerOneName);
+
+	$(".hiddenOne").removeClass("hiddenOne");
+	$("#waitingRoom").remove();
+
+	$("#player-1-name").html('<h2 class="panel-title" id="player-1-name">Player 1</h2>')
+
+
+
+}	
+
+});
+
+
 }
+
+
 
 else {alert("Room is full!")};
 
@@ -95,6 +148,8 @@ playersRef.on("value", function(snap) {
 console.log(snap.numChildren());
 
 playerCount = snap.numChildren();
+
+
 
 })
 
