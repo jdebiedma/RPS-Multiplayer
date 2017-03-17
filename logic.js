@@ -195,7 +195,7 @@ playersRef.on("value", function(snapshot) {
   	$("#player-2-name").html('<h2 class="panel-title" id="player-2-name">'+snapshot.val().name+'</h2>')
 	});
 
-
+	began = true;
 
 
 	if (iAmPlayer === 1) {
@@ -206,7 +206,27 @@ playersRef.on("value", function(snapshot) {
 	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper1">Paper</button>')
 	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors1">Scissors</button>')
 
+	$("#rock1").on("click", function() {
 
+		alert("You chose rock1");
+
+		p1Ref.update({
+
+  			"selection": "rock"
+
+		});
+	})
+
+	$("#paper1").on("click", function() {
+
+		alert("You chose paper1");
+
+		p1Ref.update({
+
+  			"selection": "paper"
+
+		});
+	})
 
 
 	}
@@ -227,6 +247,17 @@ playersRef.on("value", function(snapshot) {
 		p2Ref.update({
 
   			"selection": "rock"
+
+		});
+	})
+
+	$("#paper2").on("click", function() {
+
+		alert("You chose paper2");
+
+		p2Ref.update({
+
+  			"selection": "paper"
 
 		});
 	})
