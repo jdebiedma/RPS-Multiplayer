@@ -182,7 +182,7 @@ playersRef.on("value", function(snapshot) {
 
 
 	$(".hiddenOne").removeClass("hiddenOne");
-	$("#waitingRoom").remove();
+	$("#waitingRoom").html("");
 
 	
 	//THIS IS THE SYNTAX TO READ DATA. I DIDN'T MAKE IT UP, ITS JUST HOW IT GOES.
@@ -208,25 +208,38 @@ playersRef.on("value", function(snapshot) {
 
 	$("#rock1").on("click", function() {
 
-		alert("You chose rock1");
-
 		p1Ref.update({
 
   			"selection": "rock"
 
 		});
+		myPick = "rock"
+		iPicked();
 	})
 
 	$("#paper1").on("click", function() {
-
-		alert("You chose paper1");
 
 		p1Ref.update({
 
   			"selection": "paper"
 
 		});
+		myPick = "paper"
+		iPicked();
 	})
+
+	$("#scissors1").on("click", function() {
+
+		p1Ref.update({
+
+  			"selection": "scissors"
+
+		});
+		myPick = "scissors"
+		iPicked();
+	})
+
+
 
 
 	}
@@ -242,24 +255,43 @@ playersRef.on("value", function(snapshot) {
 
 	$("#rock2").on("click", function() {
 
-		alert("You chose rock2");
-
 		p2Ref.update({
 
   			"selection": "rock"
 
 		});
+
+		myPick = "rock"
+
+		iPicked();
 	})
 
 	$("#paper2").on("click", function() {
-
-		alert("You chose paper2");
 
 		p2Ref.update({
 
   			"selection": "paper"
 
 		});
+
+		myPick = "paper"
+
+		iPicked();
+	})
+
+	$("#scissors2").on("click", function() {
+
+		p2Ref.update({
+
+  			"selection": "scissors"
+
+		});
+
+		myPick = "scissors"
+
+		iPicked();
+
+
 	})
 
 
@@ -295,5 +327,11 @@ playerCount = snap.numChildren();
 
 
 
+function iPicked() {
 
+	$(".moo").slideUp();
+	$("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent's selection...</h5><br><br>");
+
+	$("#weaponHolder").html("<img src='http://b.illbrown.com/rps/img/"+myPick+"_small.png'></img>");
+}
 
