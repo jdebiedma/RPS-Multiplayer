@@ -332,6 +332,16 @@ function iPicked() {
 	$(".moo").slideUp();
 	$("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent's selection...</h5><br><br>");
 
-	$("#weaponHolder").html("<img src='http://b.illbrown.com/rps/img/"+myPick+"_small.png'></img>");
+	$("#weaponHolder").html("<img id='weaponImage' src='http://b.illbrown.com/rps/img/"+myPick+"_small.png' style='height: 100px ; width: auto'></img>");
+
+	if (iAmPlayer === 1) {$("#weaponImage").addClass("floatLeft");
+		//$("#weaponHolder").append("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
+	};
+
+	if (iAmPlayer === 2) {$("#weaponImage").addClass("floatRight");
+
+		//$("#weaponHolder").prepend("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
+	};
+
 }
 
