@@ -21,6 +21,11 @@ var connectedRef = database.ref(".info/connected");
 
 var playersRef = database.ref("/players");
 
+var selectionPhase = database.ref("/selectionPhase")
+
+var player1selection = database.ref("/players/player1/selection");
+var player2selection = database.ref("/players/player2/selection");
+
 var p1Ref = playersRef.child("player1");
 var p2Ref = playersRef.child("player2");
 
@@ -45,7 +50,10 @@ var iAmPlayer;
 
 var began = false;
 
+var opponentChosen = false;
+var opponentWeapon;
 
+var myPick;
 
 connectionsRef.on("value", function(snap) {
 
@@ -239,9 +247,35 @@ playersRef.on("value", function(snapshot) {
 		iPicked();
 	})
 
+	
+
+	player2selection.on("value", function(snapshot) {
+
+			
+				opponentChosen = true;
+				opponentWeapon = snapshot.val();
+
+			if (myPick) {
+
+				alert("reveal! p2 selection made: " + snapshot.val());
+
+			}
 
 
+		});
 
+	player1selection.on("value", function(snapshot){
+
+			if (opponentChosen) { 
+
+					alert("you have chosen " + snapshot.val() + " and your opponent has chosen " + opponentWeapon);
+
+			}
+
+
+		});
+
+		
 	}
 
 	else if (iAmPlayer === 2) {
@@ -294,7 +328,35 @@ playersRef.on("value", function(snapshot) {
 
 	})
 
+	
 
+		player1selection.on("value", function(snapshot) {
+
+			
+				opponentChosen = true;
+				opponentWeapon = snapshot.val();
+
+			if (myPick) {
+
+				alert("reveal! p1 selection made: " + snapshot.val());
+
+			}
+
+
+		});
+
+		player2selection.on("value", function(snapshot){
+
+			if (opponentChosen) { 
+
+					alert("you have chosen " + snapshot.val() + " and your opponent has chosen " + opponentWeapon);
+
+			}
+
+
+		});
+
+	
 
 	}
 
@@ -329,6 +391,14 @@ playerCount = snap.numChildren();
 
 function iPicked() {
 
+
+
+	var chooser = selectionPhase.set({
+
+	status : true
+
+	});
+
 	$(".moo").slideUp();
 	$("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent's selection...</h5><br><br>");
 
@@ -336,12 +406,30 @@ function iPicked() {
 
 	if (iAmPlayer === 1) {$("#weaponImage").addClass("floatLeft");
 		//$("#weaponHolder").append("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
+	
+		selectionPhase.update({
+  	"p1pick": myPick
+	});
+
 	};
 
 	if (iAmPlayer === 2) {$("#weaponImage").addClass("floatRight");
 
 		//$("#weaponHolder").prepend("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
+	selectionPhase.update({
+  	"p2pick": myPick
+	});
+
+
+
 	};
+
+
+	
+
+
+
+	
 
 }
 
