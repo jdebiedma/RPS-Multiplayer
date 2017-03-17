@@ -85,6 +85,13 @@ display:block;
 
 }
 
+.glow {
+
+	-webkit-box-shadow:0 0 20px blue; 
+-moz-box-shadow: 0 0 20px blue; 
+box-shadow:0 0 20px blue;
+}
+
 
 @keyframes flickerAnimation {
   0%   { opacity:1; }
@@ -154,7 +161,7 @@ display:block;
 <div class = "row">
 
  <div class="col-lg-offset-1 col-lg-3">
-   <div class="panel panel-info hiddenOne">
+   <div class="panel panel-info hiddenOne player1panel">
   <div class="panel-heading">
     <h2 class="panel-title" id="player-1-name">Player 1</h2>
   </div>
@@ -177,10 +184,10 @@ display:block;
     <h2 class="panel-title">Duel!</h2>
   </div>
   <div class="panel-body">
+   
     
     <br>
-    <br>
-    <br>
+     <h3>Select your weapon!</h3>
     <br>
     <br>
   </div>
@@ -189,7 +196,7 @@ display:block;
   </div><!-- /.col-lg-6 -->
 
   <div class="col-lg-3">
-   <div class="panel panel-danger hiddenOne">
+   <div class="panel panel-danger hiddenOne player2panel">
   <div class="panel-heading">
     <h2 class="panel-title" id="player-2-name">Player 2</h2>
   </div>
@@ -213,9 +220,7 @@ display:block;
 
 
 
-<!-- <button type="button" class="btn btn-primary ee"  >Rock</button>
-<button type="button" class="btn btn-primary ee"  >Paper</button>
-<button type="button" class="btn btn-primary ee"  >Scissors</button> -->
+
 
 </div>
 </div>

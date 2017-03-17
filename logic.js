@@ -21,6 +21,9 @@ var connectedRef = database.ref(".info/connected");
 
 var playersRef = database.ref("/players");
 
+var p1Ref = playersRef.child("player1");
+var p2Ref = playersRef.child("player2");
+
 var keyRef = database.ref("/keys");
 
 var enteredRef = database.ref("/entered");
@@ -38,7 +41,9 @@ var secondKey = "";
 var myWins;
 var myLosses;
 
+var iAmPlayer;
 
+var began = false;
 
 
 
@@ -131,14 +136,18 @@ playersRef.set({
 
   }); 
 
-
+iAmPlayer = 1;
 
 }
 
 else if (playerCount === 1) {
 
-	var hopperRef = playersRef.child("player2");
-	hopperRef.update({
+	//	THIS IS THE SYNTAX TO SET DATA. I DIDN'T MAKE IT UP, ITS JUST HOW IT GOES.
+	//	Remember, p2Ref = playersRef.child("player2");
+
+	iAmPlayer = 2;
+
+	p2Ref.update({
   	"name": playerName
 });
 
@@ -147,35 +156,6 @@ else if (playerCount === 1) {
 }
 
 
-
-
-//adder.onDisconnect().remove();
-
-// myPlayerKey = adder.key;
-
-// console.log(myPlayerKey);
-
-// if (playerCount === 1) {
-
-// 		keyRef.child('firstKey').set(myPlayerKey);
-
-// 	}
-
-// if (playerCount === 2) {
-
-// 		keyRef.child('secondKey').set(myPlayerKey);
-
-// 	}
-
-
-// keyRef.on("value", function(snap){
-
-// //		console.log(snap.child("firstKey").val() + " and " + snap.child("secondKey").val());
-
-// 		firstKey = snap.child("firstKey").val();
-// 		secondKey = snap.child("secondKey").val();
-
-// 	});
 	
 
 $("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent...</h5><br><br>")
@@ -189,29 +169,13 @@ $("#firstInput").slideUp();
 $("#titleText").html('<h2 id="titleText">multiplayer rps</h2>')
 
 
-playersRef.orderByChild("playerID").equalTo(1).on("child_added", function(snapshot) {
-  console.log("the first player's name is " + snapshot.val().name);
-});
-
-playersRef.orderByChild("playerID").equalTo(2).on("child_added", function(snapshot) {
-  console.log("the second player's name is " + snapshot.val().name);
-
-
-
-
-});
-
-
-
-
-
 
 
 
 playersRef.on("value", function(snapshot) {
 
 	
-	if (playerCount === 2) {
+	if (playerCount === 2 && !began) {
 
 	console.log("game begin!");
 
@@ -221,6 +185,7 @@ playersRef.on("value", function(snapshot) {
 	$("#waitingRoom").remove();
 
 	
+	//THIS IS THE SYNTAX TO READ DATA. I DIDN'T MAKE IT UP, ITS JUST HOW IT GOES.
 
 	playersRef.orderByChild("playerID").equalTo(1).on("child_added", function(snapshot) {
   	$("#player-1-name").html('<h2 class="panel-title" id="player-1-name">'+snapshot.val().name+'</h2>')
@@ -231,7 +196,48 @@ playersRef.on("value", function(snapshot) {
 	});
 
 
-	
+
+
+	if (iAmPlayer === 1) {
+
+		$(".player1panel").addClass("glow");
+
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock1" >Rock</button>')
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper1">Paper</button>')
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors1">Scissors</button>')
+
+
+
+
+	}
+
+	else if (iAmPlayer === 2) {
+
+		$(".player2panel").addClass("glow");
+
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock2" >Rock</button>')
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper2">Paper</button>')
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors2">Scissors</button>')
+
+
+	$("#rock2").on("click", function() {
+
+		alert("You chose rock2");
+
+		p2Ref.update({
+
+  			"selection": "rock"
+
+		});
+	})
+
+
+
+	}
+
+
+
+
 
 }	
 
