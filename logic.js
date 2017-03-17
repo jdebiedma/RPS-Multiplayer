@@ -23,7 +23,7 @@ var playersRef = database.ref("/players");
 
 var keyRef = database.ref("/keys");
 
-
+var enteredRef = database.ref("/entered");
 
 
 var playerCount = 0;
@@ -69,6 +69,8 @@ connectedRef.on("value", function(snap) {
   }
 });
 
+
+
 $("#name-input").keyup(function(event){
     if(event.keyCode == 13){
         $("#joinButton").click();
@@ -79,53 +81,101 @@ $("#joinButton").on("click", function(){
 
 var playerName = $("#name-input").val();
 
-if (playerCount < 2 && !entered) {
 
-var adder = playersRef.push({
+playersRef.on("value", function (snap){
 
-		
+if (playerCount < 2) {	
+
+var con = enteredRef.push({
+
+name : playerName
+
+});
+
+
+
+con.onDisconnect().remove();
+
+};
+
+
+})	
+
+if (playerCount < 2) {
+
+if (playerCount === 0) {
+
+
+
+playersRef.set({
+
+		player1:	{
+
 			name : playerName,
 			wins: 0,
 			losses: 0,
-			playerID: playerCount + 1,
-			playerKey : "none"        
-				
-      });
+			playerID: 1,
+			playerKey : "none" ,
+			selection: "none"      		
+      },
 
-adder.onDisconnect().remove();
+       player2:	    {
 
-myPlayerKey = adder.key;
+			name : playerName,
+			wins: 0,
+			losses: 0,
+			playerID: 2,
+			playerKey : "none" ,
+			selection: "none"      		
+      },
 
-console.log(myPlayerKey);
-
-if (playerCount === 1) {
-
-		keyRef.child('firstKey').set(myPlayerKey);
-
-	}
-
-if (playerCount === 2) {
-
-		keyRef.child('secondKey').set(myPlayerKey);
-
-	}
-
-
-keyRef.on("value", function(snap){
-
-//		console.log(snap.child("firstKey").val() + " and " + snap.child("secondKey").val());
-
-		firstKey = snap.child("firstKey").val();
-		secondKey = snap.child("secondKey").val();
-
-	// console.log("inside snap:" + myPlayerKey);
-	// console.log("my value inside : " + firstKey);
-	// console.log(secondKey);
+  }); 
 
 
 
-		//console.log(playersRef.child(firstKey + "/name").val())	;
-	});
+}
+
+else if (playerCount === 1) {
+
+	var hopperRef = playersRef.child("player2");
+	hopperRef.update({
+  	"name": playerName
+});
+
+
+
+}
+
+
+
+
+//adder.onDisconnect().remove();
+
+// myPlayerKey = adder.key;
+
+// console.log(myPlayerKey);
+
+// if (playerCount === 1) {
+
+// 		keyRef.child('firstKey').set(myPlayerKey);
+
+// 	}
+
+// if (playerCount === 2) {
+
+// 		keyRef.child('secondKey').set(myPlayerKey);
+
+// 	}
+
+
+// keyRef.on("value", function(snap){
+
+// //		console.log(snap.child("firstKey").val() + " and " + snap.child("secondKey").val());
+
+// 		firstKey = snap.child("firstKey").val();
+// 		secondKey = snap.child("secondKey").val();
+
+// 	});
 	
 
 $("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent...</h5><br><br>")
@@ -138,14 +188,25 @@ $("#firstInput").slideUp();
 
 $("#titleText").html('<h2 id="titleText">multiplayer rps</h2>')
 
-playersRef.orderByChild("name").on("child_added", function(snapshot) {
 
-	console.log(snapshot.key + " was " + snapshot.val().name + " hahaha ");
-		
-	})
+playersRef.orderByChild("playerID").equalTo(1).on("child_added", function(snapshot) {
+  console.log("the first player's name is " + snapshot.val().name);
+});
+
+playersRef.orderByChild("playerID").equalTo(2).on("child_added", function(snapshot) {
+  console.log("the second player's name is " + snapshot.val().name);
 
 
-entered = true;
+
+
+});
+
+
+
+
+
+
+
 
 playersRef.on("value", function(snapshot) {
 
@@ -156,26 +217,19 @@ playersRef.on("value", function(snapshot) {
 
 
 
-
-	//playerOneName = snapshot.child(myPlayerKey + "/name").val();
-	//console.log(playerOneName);
-
-	//alert(playerOneName);
-/*
-
-	console.log(snapshot);
-
-	alert("this is the first: " + plsWork);
-	alert("this is the 2nd: " +plsWork2);
-
-	console.log("my value before : " + firstKey);
-
-*/
-
 	$(".hiddenOne").removeClass("hiddenOne");
 	$("#waitingRoom").remove();
 
-	$("#player-1-name").html('<h2 class="panel-title" id="player-1-name">Player 1</h2>')
+	
+
+	playersRef.orderByChild("playerID").equalTo(1).on("child_added", function(snapshot) {
+  	$("#player-1-name").html('<h2 class="panel-title" id="player-1-name">'+snapshot.val().name+'</h2>')
+	});
+
+	playersRef.orderByChild("playerID").equalTo(2).on("child_added", function(snapshot) {
+  	$("#player-2-name").html('<h2 class="panel-title" id="player-2-name">'+snapshot.val().name+'</h2>')
+	});
+
 
 	
 
@@ -192,15 +246,13 @@ else {alert("Room is full!")};
 
 });
 
-playersRef.on("value", function(snap) {
+enteredRef.on("value", function(snap) {
 
-console.log(snap.numChildren());
-
-
+if (playerCount < 2) {
 
 playerCount = snap.numChildren();
 
-
+}
 
 })
 
