@@ -22,9 +22,15 @@ var connectedRef = database.ref(".info/connected");
 var playersRef = database.ref("/players");
 
 var selectionPhase = database.ref("/selectionPhase")
+var selectionPhaseStartedRef = database.ref("/selectionPhase/status");
+
+var selectionPhaseStarted = false;
 
 var player1selection = database.ref("/players/player1/selection");
 var player2selection = database.ref("/players/player2/selection");
+
+var p1readyRef = database.ref("/selectionPhase/p1pick");
+var p2readyRef = database.ref("/selectionPhase/p2pick");
 
 var p1Ref = playersRef.child("player1");
 var p2Ref = playersRef.child("player2");
@@ -146,6 +152,12 @@ playersRef.set({
 
 iAmPlayer = 1;
 
+var chooser = selectionPhase.set({
+
+	status : false,
+
+	});
+
 }
 
 else if (playerCount === 1) {
@@ -157,6 +169,7 @@ else if (playerCount === 1) {
 
 	p2Ref.update({
   	"name": playerName
+
 });
 
 
@@ -249,22 +262,22 @@ playersRef.on("value", function(snapshot) {
 
 	
 
-	player2selection.on("value", function(snapshot) {
+	p2readyRef.on("value", function(snapshot) {
 
-			
+		if (selectionPhaseStarted) {
+	
 				opponentChosen = true;
 				opponentWeapon = snapshot.val();
 
 			if (myPick) {
 
-				alert("reveal! p2 selection made: " + snapshot.val());
+				console.log("reveal! p2 selection made: " + snapshot.val());
 
 			}
+		
+		}
 
-
-		});
-
-	player1selection.on("value", function(snapshot){
+		p1readyRef.on("value", function(snapshot){
 
 			if (opponentChosen) { 
 
@@ -274,6 +287,9 @@ playersRef.on("value", function(snapshot) {
 
 
 		});
+		});
+
+	
 
 		
 	}
@@ -330,22 +346,20 @@ playersRef.on("value", function(snapshot) {
 
 	
 
-		player1selection.on("value", function(snapshot) {
-
-			
+			p1readyRef.on("value", function(snapshot) {
+	
+			if (selectionPhaseStarted) {
 				opponentChosen = true;
 				opponentWeapon = snapshot.val();
 
 			if (myPick) {
 
-				alert("reveal! p1 selection made: " + snapshot.val());
+				console.log("reveal! p1 selection made: " + snapshot.val());
 
 			}
+		}	
 
-
-		});
-
-		player2selection.on("value", function(snapshot){
+		p2readyRef.on("value", function(snapshot){
 
 			if (opponentChosen) { 
 
@@ -355,6 +369,10 @@ playersRef.on("value", function(snapshot) {
 
 
 		});
+
+		});
+
+	
 
 	
 
@@ -393,22 +411,30 @@ function iPicked() {
 
 
 
-	var chooser = selectionPhase.set({
 
-	status : true
 
-	});
 
 	$(".moo").slideUp();
 	$("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent's selection...</h5><br><br>");
 
 	$("#weaponHolder").html("<img id='weaponImage' src='http://b.illbrown.com/rps/img/"+myPick+"_small.png' style='height: 100px ; width: auto'></img>");
 
+
+
+
 	if (iAmPlayer === 1) {$("#weaponImage").addClass("floatLeft");
 		//$("#weaponHolder").append("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
 	
-		selectionPhase.update({
-  	"p1pick": myPick
+
+	var chooser = selectionPhase.update({
+
+	"status" : true,
+
+	});
+
+	selectionPhase.update({
+  	"p1pick": myPick,
+  
 	});
 
 	};
@@ -416,15 +442,31 @@ function iPicked() {
 	if (iAmPlayer === 2) {$("#weaponImage").addClass("floatRight");
 
 		//$("#weaponHolder").prepend("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
+	var chooser = selectionPhase.update({
+
+	"status" : true,
+
+	});
+
 	selectionPhase.update({
-  	"p2pick": myPick
+  	"p2pick": myPick,
+  	
 	});
 
 
 
 	};
 
+selectionPhaseStartedRef.on("value", function(snapshot){
 
+				if (snapshot.val() === true) {
+
+				console.log("Selection Phase Started!");
+				selectionPhaseStarted = true;
+
+			}
+
+			})
 	
 
 
