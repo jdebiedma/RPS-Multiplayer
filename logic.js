@@ -405,7 +405,9 @@ selectionPhaseStartedRef.on("value", function (snapshot) {
 
 					console.log ("results: you chose " + snapshot.val().p1pick + " and your opponent chose " + snapshot.val().p2pick);
 
-							
+							$("#weaponHolder").append("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/"+snapshot.val().p2pick+"_small.png' style='height: 100px ; width: auto'></img>");
+
+							$("#opponentWeaponImage").addClass("floatRight");
 
 						}
 				})
@@ -438,6 +440,10 @@ selectionPhaseStartedRef.on("value", function (snapshot) {
 
 					console.log ("results: you chose " + snapshot.val().p2pick + " and your opponent chose " + snapshot.val().p1pick);
 
+
+							$("#weaponHolder").prepend("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/"+snapshot.val().p1pick+"_small.png' style='height: 100px ; width: auto'></img>");
+
+							$("#opponentWeaponImage").addClass("floatLeft");
 
 						}
 				})
@@ -545,3 +551,4 @@ selectionPhase.on("value", function(snapshot){
 
 }
 
+function rpsResult (p1, p2)
