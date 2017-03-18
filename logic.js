@@ -262,32 +262,32 @@ playersRef.on("value", function(snapshot) {
 
 	
 
-	p2readyRef.on("value", function(snapshot) {
+	// p2readyRef.on("value", function(snapshot) {
 
-		if (selectionPhaseStarted) {
+	// 	if (selectionPhaseStarted) {
 	
-				opponentChosen = true;
-				opponentWeapon = snapshot.val();
+	// 			opponentChosen = true;
+	// 			opponentWeapon = snapshot.val();
 
-			if (myPick) {
+	// 		if (myPick) {
 
-				console.log("reveal! p2 selection made: " + snapshot.val());
+	// 			console.log("reveal! p2 selection made: " + snapshot.val());
 
-			}
+	// 		}
 		
-		}
+	// 	}
 
-		p1readyRef.on("value", function(snapshot){
+	// 	p1readyRef.on("value", function(snapshot){
 
-			if (opponentChosen) { 
+	// 		if (opponentChosen) { 
 
-					alert("you have chosen " + snapshot.val() + " and your opponent has chosen " + opponentWeapon);
+	// 				alert("you have chosen " + snapshot.val() + " and your opponent has chosen " + opponentWeapon);
 
-			}
+	// 		}
 
 
-		});
-		});
+	// 	});
+	// 	});
 
 	
 
@@ -346,31 +346,31 @@ playersRef.on("value", function(snapshot) {
 
 	
 
-			p1readyRef.on("value", function(snapshot) {
+		// 	p1readyRef.on("value", function(snapshot) {
 	
-			if (selectionPhaseStarted) {
-				opponentChosen = true;
-				opponentWeapon = snapshot.val();
+		// 	if (selectionPhaseStarted) {
+		// 		opponentChosen = true;
+		// 		opponentWeapon = snapshot.val();
 
-			if (myPick) {
+		// 	if (myPick) {
 
-				console.log("reveal! p1 selection made: " + snapshot.val());
+		// 		console.log("reveal! p1 selection made: " + snapshot.val());
 
-			}
-		}	
+		// 	}
+		// }	
 
-		p2readyRef.on("value", function(snapshot){
+		// p2readyRef.on("value", function(snapshot){
 
-			if (opponentChosen) { 
+		// 	if (opponentChosen) { 
 
-					alert("you have chosen " + snapshot.val() + " and your opponent has chosen " + opponentWeapon);
+		// 			alert("you have chosen " + snapshot.val() + " and your opponent has chosen " + opponentWeapon);
 
-			}
+		// 	}
 
 
-		});
+		// });
 
-		});
+		// });
 
 	
 
@@ -380,6 +380,44 @@ playersRef.on("value", function(snapshot) {
 
 
 
+selectionPhase.on("value", function (snapshot) {
+
+	console.log("in selection phase");
+
+	if (iAmPlayer === 1) {
+
+			if (!selectionPhaseStarted && !myPick) {
+				opponentChosen = true;
+				opponentWeapon = snapshot.val().p2pick;
+
+				console.log("your opponent has chosen his weapon.");
+
+			}
+
+			// else if (selectionPhaseStarted && myPick) {
+
+			// 	console.log("reveal! Opponent P2 chose: " + opponentWeapon);
+
+			// }
+
+
+			
+
+	};
+
+	if (iAmPlayer === 2) {
+
+		if (!selectionPhaseStarted && !myPick) {
+				opponentChosen = true;
+				opponentWeapon = snapshot.val().p1pick;
+
+				console.log("your opponent has chosen his weapon.");
+
+
+	};	
+}
+
+})
 
 
 }	
@@ -457,9 +495,9 @@ function iPicked() {
 
 	};
 
-selectionPhaseStartedRef.on("value", function(snapshot){
+selectionPhase.on("value", function(snapshot){
 
-				if (snapshot.val() === true) {
+				if (snapshot.val().status === true) {
 
 				console.log("Selection Phase Started!");
 				selectionPhaseStarted = true;
