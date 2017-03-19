@@ -54,6 +54,8 @@ var myLosses;
 
 var iAmPlayer;
 
+var thisResult;
+
 var began = false;
 
 var opponentChosen = false;
@@ -409,6 +411,10 @@ selectionPhaseStartedRef.on("value", function (snapshot) {
 
 							$("#opponentWeaponImage").addClass("floatRight");
 
+							console.log(snapshot.val().p1pick + " and  " + snapshot.val().p2pick);
+
+							rpsResult(snapshot.val().p1pick, snapshot.val().p2pick);
+
 						}
 				})
 
@@ -444,6 +450,10 @@ selectionPhaseStartedRef.on("value", function (snapshot) {
 							$("#weaponHolder").prepend("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/"+snapshot.val().p1pick+"_small.png' style='height: 100px ; width: auto'></img>");
 
 							$("#opponentWeaponImage").addClass("floatLeft");
+
+							console.log(snapshot.val().p1pick + " and  " + snapshot.val().p2pick);
+
+							rpsResult(snapshot.val().p1pick, snapshot.val().p2pick);
 
 						}
 				})
@@ -551,4 +561,58 @@ selectionPhase.on("value", function(snapshot){
 
 }
 
-function rpsResult (p1, p2)
+function rpsResult (p1, p2) {
+
+//where you would pass in snapshot.val().p1pick as p1
+// and snapshot.val().p2pick as p2 to keep things clean
+
+$("#waitingRoom").html("")
+
+console.log("p1 is passed in as " + p1 + " and p2 is passed in as " + p2);
+
+if (p1 === "rock") {
+
+	if (p2 === "rock") {thisResult = "tie"}
+
+	else if (p2 === "paper") {thisResult = "p2win"}
+
+	else if (p2 === "scissors") {thisResult = "p1win"}
+
+}
+
+else if (p1 === "paper") {
+
+	if (p2 === "rock") {thisResult = "p1win"}
+
+	else if (p2 === "paper") {thisResult = "tie"}
+
+	else if (p2 === "scissors") {thisResult = "p2win"}
+
+}
+
+else if (p1 === "scissors") {
+
+	if (p2 === "rock") {thisResult = "p2win"}
+
+	else if (p2 === "paper") {thisResult = "p1win"}
+
+	else if (p2 === "scissors") {thisResult = "tie"}
+
+};
+
+
+console.log(thisResult);	
+
+if (iAmPlayer === 1 && thisResult === "p1win") {$(".selectionHolder1").html('<h2 class = "selectionHolder1 winnerClass animate-flicker">You Won!</h2>')}
+
+else if (iAmPlayer === 1 && thisResult === "p2win") {$(".selectionHolder1").html('<h2 class = "selectionHolder1 loserClass">You Lost!</h2>')}
+
+else if (iAmPlayer === 1 && thisResult === "tie") {$(".selectionHolder1").html('<h2 class = "selectionHolder1">You Tied!</h2>')}	
+
+else if (iAmPlayer === 2 && thisResult === "p1win") {$(".selectionHolder2").html('<h2 class = "selectionHolder2 loserClass">You Lost!</h2>')}
+
+else if (iAmPlayer === 2 && thisResult === "p2win") {$(".selectionHolder2").html('<h2 class = "selectionHolder2 winnerClass animate-flicker">You Won!</h2>')}
+
+else if (iAmPlayer === 2 && thisResult === "tie") {$(".selectionHolder2").html('<h2 class = "selectionHolder2">You Tied!</h2>')}
+
+}
