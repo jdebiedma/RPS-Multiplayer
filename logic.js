@@ -49,8 +49,9 @@ var myPlayerKey;
 var firstKey = "";
 var secondKey = "";
 
-var myWins;
-var myLosses;
+var myWins = 0;
+var myLosses = 0;
+var myTies=0;
 
 var iAmPlayer;
 
@@ -133,8 +134,6 @@ playersRef.set({
 		player1:	{
 
 			name : playerName,
-			wins: 0,
-			losses: 0,
 			playerID: 1,
 			playerKey : "none" ,
 			selection: "none"      		
@@ -143,8 +142,6 @@ playersRef.set({
        player2:	    {
 
 			name : playerName,
-			wins: 0,
-			losses: 0,
 			playerID: 2,
 			playerKey : "none" ,
 			selection: "none"      		
@@ -220,167 +217,109 @@ playersRef.on("value", function(snapshot) {
 
 	began = true;
 
+// Replace all this with nextTurn();
 
-	if (iAmPlayer === 1) {
+	nextTurn();
 
-		$(".player1panel").addClass("glow");
+	// if (iAmPlayer === 1) {
 
-	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock1" >Rock</button>')
-	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper1">Paper</button>')
-	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors1">Scissors</button>')
+	// 	$(".player1panel").addClass("glow");
 
-	$("#rock1").on("click", function() {
+	// $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock1" >Rock</button>')
+	// $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper1">Paper</button>')
+	// $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors1">Scissors</button>')
 
-		p1Ref.update({
+	// $("#rock1").on("click", function() {
 
-  			"selection": "rock"
+	// 	p1Ref.update({
 
-		});
-		myPick = "rock"
-		iPicked();
-	})
-
-	$("#paper1").on("click", function() {
-
-		p1Ref.update({
-
-  			"selection": "paper"
-
-		});
-		myPick = "paper"
-		iPicked();
-	})
-
-	$("#scissors1").on("click", function() {
-
-		p1Ref.update({
-
-  			"selection": "scissors"
-
-		});
-		myPick = "scissors"
-		iPicked();
-	})
-
-	
-
-	// p2readyRef.on("value", function(snapshot) {
-
-	// 	if (selectionPhaseStarted) {
-	
-	// 			opponentChosen = true;
-	// 			opponentWeapon = snapshot.val();
-
-	// 		if (myPick) {
-
-	// 			console.log("reveal! p2 selection made: " + snapshot.val());
-
-	// 		}
-		
-	// 	}
-
-	// 	p1readyRef.on("value", function(snapshot){
-
-	// 		if (opponentChosen) { 
-
-	// 				alert("you have chosen " + snapshot.val() + " and your opponent has chosen " + opponentWeapon);
-
-	// 		}
-
+ //  			"selection": "rock"
 
 	// 	});
-	// 	});
+	// 	myPick = "rock"
+	// 	iPicked();
+	// })
 
-	
+	// $("#paper1").on("click", function() {
+
+	// 	p1Ref.update({
+
+ //  			"selection": "paper"
+
+	// 	});
+	// 	myPick = "paper"
+	// 	iPicked();
+	// })
+
+	// $("#scissors1").on("click", function() {
+
+	// 	p1Ref.update({
+
+ //  			"selection": "scissors"
+
+	// 	});
+	// 	myPick = "scissors"
+	// 	iPicked();
+	// })
 
 		
-	}
+	// }
 
-	else if (iAmPlayer === 2) {
+	// else if (iAmPlayer === 2) {
 
-		$(".player2panel").addClass("glow");
+	// 	$(".player2panel").addClass("glow");
 
-	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock2" >Rock</button>')
-	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper2">Paper</button>')
-	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors2">Scissors</button>')
-
-
-	$("#rock2").on("click", function() {
-
-		p2Ref.update({
-
-  			"selection": "rock"
-
-		});
-
-		myPick = "rock"
-
-		iPicked();
-	})
-
-	$("#paper2").on("click", function() {
-
-		p2Ref.update({
-
-  			"selection": "paper"
-
-		});
-
-		myPick = "paper"
-
-		iPicked();
-	})
-
-	$("#scissors2").on("click", function() {
-
-		p2Ref.update({
-
-  			"selection": "scissors"
-
-		});
-
-		myPick = "scissors"
-
-		iPicked();
+	// $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock2" >Rock</button>')
+	// $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper2">Paper</button>')
+	// $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors2">Scissors</button>')
 
 
-	})
+	// $("#rock2").on("click", function() {
 
-	
+	// 	p2Ref.update({
 
-		// 	p1readyRef.on("value", function(snapshot) {
-	
-		// 	if (selectionPhaseStarted) {
-		// 		opponentChosen = true;
-		// 		opponentWeapon = snapshot.val();
+ //  			"selection": "rock"
 
-		// 	if (myPick) {
+	// 	});
 
-		// 		console.log("reveal! p1 selection made: " + snapshot.val());
+	// 	myPick = "rock"
 
-		// 	}
-		// }	
+	// 	iPicked();
+	// })
 
-		// p2readyRef.on("value", function(snapshot){
+	// $("#paper2").on("click", function() {
 
-		// 	if (opponentChosen) { 
+	// 	p2Ref.update({
 
-		// 			alert("you have chosen " + snapshot.val() + " and your opponent has chosen " + opponentWeapon);
+ //  			"selection": "paper"
 
-		// 	}
+	// 	});
+
+	// 	myPick = "paper"
+
+	// 	iPicked();
+	// })
+
+	// $("#scissors2").on("click", function() {
+
+	// 	p2Ref.update({
+
+ //  			"selection": "scissors"
+
+	// 	});
+
+	// 	myPick = "scissors"
+
+	// 	iPicked();
 
 
-		// });
+	// })
 
-		// });
 
-	
 
-	
+	// }
 
-	}
 
-//.exists
 
 selectionPhaseStartedRef.on("value", function (snapshot) {
 
@@ -392,8 +331,7 @@ selectionPhaseStartedRef.on("value", function (snapshot) {
 	if (iAmPlayer === 1) {
 
 			if (!selectionPhaseStarted && !myPick) {
-				opponentChosen = true;
-				opponentWeapon = snapshot.val().p2pick;
+				
 
 				console.log("your opponent has chosen his weapon.");
 
@@ -429,8 +367,7 @@ selectionPhaseStartedRef.on("value", function (snapshot) {
 	if (iAmPlayer === 2) {
 
 		if (!selectionPhaseStarted && !myPick) {
-				opponentChosen = true;
-				opponentWeapon = snapshot.val().p1pick;
+				
 
 				console.log("your opponent has chosen his weapon.");
 
@@ -500,7 +437,7 @@ function iPicked() {
 
 
 
-	$(".moo").slideUp();
+	$(".ee").remove();
 	$("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent's selection...</h5><br><br>");
 
 	$("#weaponHolder").html("<img id='weaponImage' src='http://b.illbrown.com/rps/img/"+myPick+"_small.png' style='height: 100px ; width: auto'></img>");
@@ -526,6 +463,8 @@ function iPicked() {
 	};
 
 	if (iAmPlayer === 2) {$("#weaponImage").addClass("floatRight");
+
+	alert("awake" + myTies+myWins+myLosses);
 
 		//$("#weaponHolder").prepend("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
 	var chooser = selectionPhase.update({
@@ -603,16 +542,197 @@ else if (p1 === "scissors") {
 
 console.log(thisResult);	
 
-if (iAmPlayer === 1 && thisResult === "p1win") {$(".selectionHolder1").html('<h2 class = "selectionHolder1 winnerClass animate-flicker">You Won!</h2>')}
+if (iAmPlayer === 1 && thisResult === "p1win") {$(".selectionHolder1").html('<h2 class = "selectionHolder1 winnerClass animate-flicker">You Won!</h2>');
 
-else if (iAmPlayer === 1 && thisResult === "p2win") {$(".selectionHolder1").html('<h2 class = "selectionHolder1 loserClass">You Lost!</h2>')}
+myWins++;}
 
-else if (iAmPlayer === 1 && thisResult === "tie") {$(".selectionHolder1").html('<h2 class = "selectionHolder1">You Tied!</h2>')}	
+else if (iAmPlayer === 1 && thisResult === "p2win") {$(".selectionHolder1").html('<h2 class = "selectionHolder1 loserClass">You Lost!</h2>');
 
-else if (iAmPlayer === 2 && thisResult === "p1win") {$(".selectionHolder2").html('<h2 class = "selectionHolder2 loserClass">You Lost!</h2>')}
+myLosses++;}
 
-else if (iAmPlayer === 2 && thisResult === "p2win") {$(".selectionHolder2").html('<h2 class = "selectionHolder2 winnerClass animate-flicker">You Won!</h2>')}
+else if (iAmPlayer === 1 && thisResult === "tie") {$(".selectionHolder1").html('<h2 class = "selectionHolder1">You Tied!</h2>');
 
-else if (iAmPlayer === 2 && thisResult === "tie") {$(".selectionHolder2").html('<h2 class = "selectionHolder2">You Tied!</h2>')}
+myTies++;}	
+
+else if (iAmPlayer === 2 && thisResult === "p1win") {$(".selectionHolder2").html('<h2 class = "selectionHolder2 loserClass">You Lost!</h2>');
+
+myLosses++;}
+
+else if (iAmPlayer === 2 && thisResult === "p2win") {$(".selectionHolder2").html('<h2 class = "selectionHolder2 winnerClass animate-flicker">You Won!</h2>');
+
+myWins++;}
+
+else if (iAmPlayer === 2 && thisResult === "tie") {$(".selectionHolder2").html('<h2 class = "selectionHolder2">You Tied!</h2>');
+
+myTies++;}
+
+
+$("#scoreHolder").html('<h6 class = "scoreHolder">wins: '+myWins+'</h6>')
+.append('<h6 class = "scoreHolder">losses: '+myLosses+'</h6>');
+
+
+setTimeout(nextTurn, 3000);
+
+}
+
+
+
+
+function nextTurn () {
+
+	if(myWins > 0 || myLosses > 0 || myTies > 0) {
+
+		myPick ="";
+
+p1readyRef.on("value", function(snapshot){
+
+
+	if (snapshot.val()) {
+
+selectionPhase.update({
+
+"p1pick" : false,
+
+});
+
+}
+
+})
+
+p2readyRef.on("value", function(snapshot){
+
+
+	if (snapshot.val()) {
+
+selectionPhase.update({
+
+"p2pick" : false,
+
+});
+
+}
+
+})
+
+$(".selectionHolder1").html('<h3 class = "selectionHolder1"></h3>');
+
+$(".selectionHolder2").html('<h3 class = "selectionHolder2"></h3>');
+
+selectionPhaseStarted = false;
+
+//$("#happyCow").append('<div class="col-lg-4 col-lg-offset-4 moo" id = "buttonsHere">')
+
+$("#weaponHolder").html("");
+
+selectionPhase.update({
+  	"status": false,
+  
+	});
+
+}
+
+$("#waitingRoom").html("");
+
+if (iAmPlayer === 1) {
+
+		$(".player1panel").addClass("glow");
+
+		
+
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock1" >Rock</button>')
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper1">Paper</button>')
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors1">Scissors</button>')
+
+	$("#rock1").on("click", function() {
+
+		p1Ref.update({
+
+  			"selection": "rock"
+
+		});
+		myPick = "rock"
+		iPicked();
+	})
+
+	$("#paper1").on("click", function() {
+
+		p1Ref.update({
+
+  			"selection": "paper"
+
+		});
+		myPick = "paper"
+		iPicked();
+	})
+
+	$("#scissors1").on("click", function() {
+
+		p1Ref.update({
+
+  			"selection": "scissors"
+
+		});
+		myPick = "scissors"
+		iPicked();
+	})
+
+		
+	}
+
+
+else if (iAmPlayer === 2) {
+
+		$(".player2panel").addClass("glow");
+
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock2" >Rock</button>')
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper2">Paper</button>')
+	$("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors2">Scissors</button>')
+
+
+	$("#rock2").on("click", function() {
+
+		p2Ref.update({
+
+  			"selection": "rock"
+
+		});
+
+		myPick = "rock"
+
+		iPicked();
+	})
+
+	$("#paper2").on("click", function() {
+
+		p2Ref.update({
+
+  			"selection": "paper"
+
+		});
+
+		myPick = "paper"
+
+		iPicked();
+	})
+
+	$("#scissors2").on("click", function() {
+
+		p2Ref.update({
+
+  			"selection": "scissors"
+
+		});
+
+		myPick = "scissors"
+
+		iPicked();
+
+
+	})
+
+
+
+	}
+
 
 }
