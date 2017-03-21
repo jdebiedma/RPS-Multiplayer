@@ -50,10 +50,6 @@ var myWins = 0;
 var myLosses = 0;
 var myTies = 0;
 
-var x = 0;
-var round = 0;
-var prevRound = 0;
-
 var thisRound = 3;
 var thisPrevRound = 3;
 
@@ -304,34 +300,34 @@ function rpsResult(p1, p2) {
     
 
     if (iAmPlayer === 1 && thisResult === "p1win") {
+
         $(".selectionHolder1").html('<h2 class = "selectionHolder1 winnerClass animate-flicker">You Won!</h2>');
-        x++;
-        console.log("we went through here " + x + " times");
+      	$("#weaponImage").addClass("shakeMe");
         myWins++;
     } else if (iAmPlayer === 1 && thisResult === "p2win") {
+
         $(".selectionHolder1").html('<h2 class = "selectionHolder1 loserClass">You Lost!</h2>');
-        x++;
-        console.log("we went through here " + x + " times");
+       $("#opponentWeaponImage").addClass("shakeMe");
         myLosses++;
     } else if (iAmPlayer === 1 && thisResult === "tie") {
+
         $(".selectionHolder1").html('<h2 class = "selectionHolder1">You Tied!</h2>');
-        x++;
-        console.log("we went through here " + x + " times");
+      
         myTies++;
     } else if (iAmPlayer === 2 && thisResult === "p1win") {
+
         $(".selectionHolder2").html('<h2 class = "selectionHolder2 loserClass">You Lost!</h2>');
-        x++;
-        console.log("we went through here " + x + " times");
+        $("#opponentWeaponImage").addClass("shakeMe");
         myLosses++;
     } else if (iAmPlayer === 2 && thisResult === "p2win") {
+
         $(".selectionHolder2").html('<h2 class = "selectionHolder2 winnerClass animate-flicker">You Won!</h2>');
-        x++;
-        console.log("we went through here " + x + " times");
+    	$("#weaponImage").addClass("shakeMe");
         myWins++;
     } else if (iAmPlayer === 2 && thisResult === "tie") {
+
         $(".selectionHolder2").html('<h2 class = "selectionHolder2">You Tied!</h2>');
-        x++;
-        console.log("we went through here " + x + " times");
+        
         myTies++;
     }
 
@@ -340,7 +336,9 @@ function rpsResult(p1, p2) {
         .append('<h6 class = "scoreHolder">losses: ' + myLosses + '</h6>');
 
 
-    nextTurn();
+
+        
+    setTimeout(nextTurn, 3000);
 
 }
 
@@ -508,7 +506,7 @@ function nextTurn() {
     			selectionPhaseStartedRef.on("value", function(snapshot) {
 
 
-                    if (snapshot.val() === true) {
+                    if (snapshot.val() === true && thisRound === thisPrevRound) {
 
                         console.log("in selection phase");
 
@@ -561,7 +559,7 @@ function nextTurn() {
 
                                     console.log("results: you chose " + snapshot.val().p2pick + " and your opponent chose " + snapshot.val().p1pick);
 
-                                    $("#weaponHolder").prepend("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/" + snapshot.val().p2pick + "_small.png' style='height: 100px ; width: auto'></img>");
+                                    $("#weaponHolder").prepend("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/" + snapshot.val().p1pick + "_small.png' style='height: 100px ; width: auto'></img>");
 
                                     $("#opponentWeaponImage").addClass("floatLeft");
 
