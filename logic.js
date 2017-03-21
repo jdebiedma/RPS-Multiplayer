@@ -197,7 +197,7 @@ $("#joinButton").on("click", function() {
 
 
 
-    	console.log("Round 1!")
+   
 
     	round = 1;
     	prevRound = 1;
@@ -207,7 +207,7 @@ $("#joinButton").on("click", function() {
 
             if (playerCount === 2 && !began) {
 
-                console.log("game begin!");
+            
 
 
 
@@ -276,7 +276,7 @@ function rpsResult(p1, p2) {
 
     $("#waitingRoom").html("")
 
-    console.log("p1 is passed in as " + p1 + " and p2 is passed in as " + p2);
+  
 
     if (p1 === "rock") {
 
@@ -311,7 +311,7 @@ function rpsResult(p1, p2) {
     };
 
 
-    console.log(thisResult);
+
 
     
 
@@ -348,8 +348,9 @@ function rpsResult(p1, p2) {
     }
 
 
-    $("#scoreHolder").html('<h6 class = "scoreHolder">wins: ' + myWins + '</h6>')
-        .append('<h6 class = "scoreHolder">losses: ' + myLosses + '</h6>');
+    $("#scoreHolder").html('<h6 style="color:green" class = "scoreHolder">wins: ' + myWins + '</h6>')
+        .append('<h6 style="color:red" class = "scoreHolder">losses: ' + myLosses + '</h6>')
+        .append('<h6 class = "scoreHolder">ties: ' + myTies + '</h6>');
 
 
 
@@ -367,7 +368,6 @@ function nextTurn() {
     myPick = false;
     began = false;
 
-    console.log("Next round begin!");
 
 
     selectionPhase.update({
@@ -406,9 +406,10 @@ function nextTurn() {
 
     if (playerCount === 2 && !began) {
 
-    console.log("next game begin!");
 
     began = true;
+
+    $(".myNameIs").remove();
 
     playersRef.orderByChild("playerID").equalTo(1).on("child_added", function(snapshot) {
                     $("#player-1-name").html('<h2 class="panel-title" id="player-1-name">' + snapshot.val().name + '</h2>')
@@ -524,14 +525,12 @@ function nextTurn() {
 
                     if (snapshot.val() === true && thisRound === thisPrevRound) {
 
-                        console.log("in selection phase");
+                       
 
                         if (iAmPlayer === 1 && thisRound === thisPrevRound) {
 
                             if (!selectionPhaseStarted && !myPick ) {
 
-
-                                console.log("your opponent has chosen his weapon.");
 
                             }
 
@@ -539,13 +538,12 @@ function nextTurn() {
 
                                 if (snapshot.val().p1pick && snapshot.val().p2pick && thisRound === thisPrevRound) {
 
-                                    console.log("results: you chose " + snapshot.val().p1pick + " and your opponent chose " + snapshot.val().p2pick);
+                                    
 
                                     $("#weaponHolder").append("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/" + snapshot.val().p2pick + "_small.png' style='height: 100px ; width: auto'></img>");
 
                                     $("#opponentWeaponImage").addClass("floatRight");
 
-                                    console.log(snapshot.val().p1pick + " and  " + snapshot.val().p2pick);
 
                                     thisRound++;
 
@@ -565,7 +563,6 @@ function nextTurn() {
                        		if (!selectionPhaseStarted && !myPick) {
 
 
-                                console.log("your opponent has chosen his weapon.");
 
                             }
 
@@ -573,13 +570,12 @@ function nextTurn() {
 
                                 if (snapshot.val().p1pick && snapshot.val().p2pick && thisRound === thisPrevRound) {
 
-                                    console.log("results: you chose " + snapshot.val().p2pick + " and your opponent chose " + snapshot.val().p1pick);
+                                   
 
                                     $("#weaponHolder").prepend("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/" + snapshot.val().p1pick + "_small.png' style='height: 100px ; width: auto'></img>");
 
                                     $("#opponentWeaponImage").addClass("floatLeft");
 
-                                    console.log(snapshot.val().p1pick + " and  " + snapshot.val().p2pick);
 
                                     thisRound++;
 
@@ -609,7 +605,7 @@ function iPickedNext() {
 
 
 
-	console.log("Next Round!");
+
 
 	var chooser = selectionPhase.update({
 
