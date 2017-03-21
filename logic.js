@@ -50,6 +50,13 @@ var myWins = 0;
 var myLosses = 0;
 var myTies = 0;
 
+var x = 0;
+var round = 0;
+var prevRound = 0;
+
+var thisRound = 3;
+var thisPrevRound = 3;
+
 var iAmPlayer;
 
 var thisResult;
@@ -189,7 +196,8 @@ $("#joinButton").on("click", function() {
 
     	console.log("Round 1!")
 
-
+    	round = 1;
+    	prevRound = 1;
 
         playersRef.on("value", function(snapshot) {
 
@@ -317,15 +325,15 @@ $("#joinButton").on("click", function() {
                 }
 
 
-
+               
                 selectionPhaseStartedRef.on("value", function(snapshot) {
-
+                
 
                     if (snapshot.val() === true) {
 
                         console.log("in selection phase");
 
-                        if (iAmPlayer === 1) {
+                        if (iAmPlayer === 1 && round === prevRound) {
 
                             if (!selectionPhaseStarted && !myPick) {
 
@@ -338,7 +346,7 @@ $("#joinButton").on("click", function() {
 
                             selectionPhase.on("value", function(snapshot) {
 
-                                if (snapshot.val().p1pick && snapshot.val().p2pick) {
+                                if (snapshot.val().p1pick && snapshot.val().p2pick && round === prevRound) {
 
                                     console.log("results: you chose " + snapshot.val().p1pick + " and your opponent chose " + snapshot.val().p2pick);
 
@@ -350,6 +358,8 @@ $("#joinButton").on("click", function() {
 
                                     rpsResult(snapshot.val().p1pick, snapshot.val().p2pick);
 
+                                    round ++;
+
                                 }
                             })
 
@@ -358,7 +368,7 @@ $("#joinButton").on("click", function() {
 
                         };
 
-                        if (iAmPlayer === 2) {
+                        if (iAmPlayer === 2 && round === prevRound) {
 
                             if (!selectionPhaseStarted && !myPick) {
 
@@ -372,7 +382,7 @@ $("#joinButton").on("click", function() {
 
                             selectionPhase.on("value", function(snapshot) {
 
-                                if (snapshot.val().p1pick && snapshot.val().p2pick) {
+                                if (snapshot.val().p1pick && snapshot.val().p2pick && round === prevRound) {
 
                                     console.log("results: you chose " + snapshot.val().p2pick + " and your opponent chose " + snapshot.val().p1pick);
 
@@ -385,6 +395,8 @@ $("#joinButton").on("click", function() {
 
                                     rpsResult(snapshot.val().p1pick, snapshot.val().p2pick);
 
+                                    round ++;
+
                                 }
                             })
 
@@ -395,8 +407,9 @@ $("#joinButton").on("click", function() {
 
                     }
 
+                    
                 })
-
+            
 
             }
 
@@ -440,7 +453,6 @@ function iPicked() {
 
     if (iAmPlayer === 1) {
         $("#weaponImage").addClass("floatLeft");
-        //$("#weaponHolder").append("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
 
         console.log("awake" + myTies + myWins + myLosses + myPick);
         var chooser = selectionPhase.update({
@@ -461,7 +473,6 @@ function iPicked() {
 
         console.log("awake" + myTies + myWins + myLosses + myPick);
 
-        //$("#weaponHolder").prepend("<img src = 'http://vignette3.wikia.nocookie.net/vsbattles/images/f/f6/Versus_sign.png/revision/latest?cb=20151025005710' style='height: 100px ; width: 100px'></img>")
         var chooser = selectionPhase.update({
 
             "status": true,
@@ -477,7 +488,7 @@ function iPicked() {
 
     };
 
-    selectionPhase.on("value", function(snapshot) {
+    selectionPhase.once("value", function(snapshot) {
 
         if (snapshot.val().status === true) {
 
@@ -537,29 +548,37 @@ function rpsResult(p1, p2) {
 
     console.log(thisResult);
 
+    
+
     if (iAmPlayer === 1 && thisResult === "p1win") {
         $(".selectionHolder1").html('<h2 class = "selectionHolder1 winnerClass animate-flicker">You Won!</h2>');
-
+        x++;
+        console.log("we went through here " + x + " times");
         myWins++;
     } else if (iAmPlayer === 1 && thisResult === "p2win") {
         $(".selectionHolder1").html('<h2 class = "selectionHolder1 loserClass">You Lost!</h2>');
-
+        x++;
+        console.log("we went through here " + x + " times");
         myLosses++;
     } else if (iAmPlayer === 1 && thisResult === "tie") {
         $(".selectionHolder1").html('<h2 class = "selectionHolder1">You Tied!</h2>');
-
+        x++;
+        console.log("we went through here " + x + " times");
         myTies++;
     } else if (iAmPlayer === 2 && thisResult === "p1win") {
         $(".selectionHolder2").html('<h2 class = "selectionHolder2 loserClass">You Lost!</h2>');
-
+        x++;
+        console.log("we went through here " + x + " times");
         myLosses++;
     } else if (iAmPlayer === 2 && thisResult === "p2win") {
         $(".selectionHolder2").html('<h2 class = "selectionHolder2 winnerClass animate-flicker">You Won!</h2>');
-
+        x++;
+        console.log("we went through here " + x + " times");
         myWins++;
     } else if (iAmPlayer === 2 && thisResult === "tie") {
         $(".selectionHolder2").html('<h2 class = "selectionHolder2">You Tied!</h2>');
-
+        x++;
+        console.log("we went through here " + x + " times");
         myTies++;
     }
 
@@ -576,6 +595,7 @@ function rpsResult(p1, p2) {
 
 
 function nextTurn() {
+
 
     myPick = false;
     began = false;
@@ -739,9 +759,9 @@ function nextTurn() {
 
                         console.log("in selection phase");
 
-                        if (iAmPlayer === 1) {
+                        if (iAmPlayer === 1 && thisRound === thisPrevRound) {
 
-                            if (!selectionPhaseStarted && !myPick) {
+                            if (!selectionPhaseStarted && !myPick ) {
 
 
                                 console.log("your opponent has chosen his weapon.");
@@ -750,7 +770,7 @@ function nextTurn() {
 
                         	selectionPhase.on("value", function(snapshot) {
 
-                                if (snapshot.val().p1pick && snapshot.val().p2pick) {
+                                if (snapshot.val().p1pick && snapshot.val().p2pick && thisRound === thisPrevRound) {
 
                                     console.log("results: you chose " + snapshot.val().p1pick + " and your opponent chose " + snapshot.val().p2pick);
 
@@ -760,7 +780,11 @@ function nextTurn() {
 
                                     console.log(snapshot.val().p1pick + " and  " + snapshot.val().p2pick);
 
+                                    thisRound++;
+
                                     rpsResult(snapshot.val().p1pick, snapshot.val().p2pick);
+
+
 
                                 }
                         	});
@@ -769,7 +793,7 @@ function nextTurn() {
                             
                         }
 
-                        if (iAmPlayer === 2) {
+                        if (iAmPlayer === 2 && thisRound === thisPrevRound) {
 
                        		if (!selectionPhaseStarted && !myPick) {
 
@@ -780,7 +804,7 @@ function nextTurn() {
 
                         	selectionPhase.on("value", function(snapshot) {
 
-                                if (snapshot.val().p1pick && snapshot.val().p2pick) {
+                                if (snapshot.val().p1pick && snapshot.val().p2pick && thisRound === thisPrevRound) {
 
                                     console.log("results: you chose " + snapshot.val().p2pick + " and your opponent chose " + snapshot.val().p1pick);
 
@@ -790,7 +814,11 @@ function nextTurn() {
 
                                     console.log(snapshot.val().p1pick + " and  " + snapshot.val().p2pick);
 
+                                    thisRound++;
+
                                     rpsResult(snapshot.val().p1pick, snapshot.val().p2pick);
+
+                                   
 
                                 }
                         	});
@@ -803,10 +831,50 @@ function nextTurn() {
 
     }
 
+if (thisRound > thisPrevRound) {
+thisPrevRound++;
+
+};
 
 }
 
 function iPickedNext() {
 
-	console.log("alt function");
+
+
+	console.log("Next Round!");
+
+	var chooser = selectionPhase.update({
+
+            "status": true,
+
+        });
+
+	$(".ee").remove();
+    $("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent's selection...</h5><br><br>");
+
+    $("#weaponHolder").html("<img id='weaponImage' src='http://b.illbrown.com/rps/img/" + myPick + "_small.png' style='height: 100px ; width: auto'></img>");
+
+       if (iAmPlayer === 1) {
+        $("#weaponImage").addClass("floatLeft");
+
+        selectionPhase.update({
+            "p1pick": myPick,
+
+        });
+
+    };
+
+    if (iAmPlayer === 2) {
+        $("#weaponImage").addClass("floatRight");
+
+        selectionPhase.update({
+            "p2pick": myPick,
+
+        });
+
+
+
+    };
+
 }
