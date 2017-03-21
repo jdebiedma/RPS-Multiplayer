@@ -194,6 +194,10 @@ $("#joinButton").on("click", function() {
 
     if (myWins === 0 && myLosses === 0 && myTies === 0) {
 
+
+
+
+
     	console.log("Round 1!")
 
     	round = 1;
@@ -222,199 +226,12 @@ $("#joinButton").on("click", function() {
                     $("#player-2-name").html('<h2 class="panel-title" id="player-2-name">' + snapshot.val().name + '</h2>')
                 });
 
-                began = true;
-
-                // Replace all this with nextTurn();
-
-
-
-                if (iAmPlayer === 1) {
-
-                    $(".player1panel").addClass("glow");
-
-                    $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock1" >Rock</button>')
-                    $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper1">Paper</button>')
-                    $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors1">Scissors</button>')
-
-                    $("#rock1").on("click", function() {
-
-                        p1Ref.update({
-
-                            "selection": "rock"
-
-                        });
-                        myPick = "rock"
-                        iPicked();
-                    })
-
-                    $("#paper1").on("click", function() {
-
-                        p1Ref.update({
-
-                            "selection": "paper"
-
-                        });
-                        myPick = "paper"
-                        iPicked();
-                    })
-
-                    $("#scissors1").on("click", function() {
-
-                        p1Ref.update({
-
-                            "selection": "scissors"
-
-                        });
-                        myPick = "scissors"
-                        iPicked();
-                    })
-
-
-                } else if (iAmPlayer === 2) {
-
-                    $(".player2panel").addClass("glow");
-
-                    $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="rock2" >Rock</button>')
-                    $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="paper2">Paper</button>')
-                    $("#buttonsHere").append('<button type="button" class="btn btn-primary ee" id="scissors2">Scissors</button>')
-
-
-                    $("#rock2").on("click", function() {
-
-                        p2Ref.update({
-
-                            "selection": "rock"
-
-                        });
-
-                        myPick = "rock"
-
-                        iPicked();
-                    })
-
-                    $("#paper2").on("click", function() {
-
-                        p2Ref.update({
-
-                            "selection": "paper"
-
-                        });
-
-                        myPick = "paper"
-
-                        iPicked();
-                    })
-
-                    $("#scissors2").on("click", function() {
-
-                        p2Ref.update({
-
-                            "selection": "scissors"
-
-                        });
-
-                        myPick = "scissors"
-
-                        iPicked();
-
-
-                    })
-
-
-
-                }
-
-
-               
-                selectionPhaseStartedRef.on("value", function(snapshot) {
-                
-
-                    if (snapshot.val() === true) {
-
-                        console.log("in selection phase");
-
-                        if (iAmPlayer === 1 && round === prevRound) {
-
-                            if (!selectionPhaseStarted && !myPick) {
-
-
-                                console.log("your opponent has chosen his weapon.");
-
-                            }
-
-
-
-                            selectionPhase.on("value", function(snapshot) {
-
-                                if (snapshot.val().p1pick && snapshot.val().p2pick && round === prevRound) {
-
-                                    console.log("results: you chose " + snapshot.val().p1pick + " and your opponent chose " + snapshot.val().p2pick);
-
-                                    $("#weaponHolder").append("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/" + snapshot.val().p2pick + "_small.png' style='height: 100px ; width: auto'></img>");
-
-                                    $("#opponentWeaponImage").addClass("floatRight");
-
-                                    console.log(snapshot.val().p1pick + " and  " + snapshot.val().p2pick);
-
-                                    rpsResult(snapshot.val().p1pick, snapshot.val().p2pick);
-
-                                    round ++;
-
-                                }
-                            })
-
-
-
-
-                        };
-
-                        if (iAmPlayer === 2 && round === prevRound) {
-
-                            if (!selectionPhaseStarted && !myPick) {
-
-
-                                console.log("your opponent has chosen his weapon.");
-
-                            };
-
-
-
-
-                            selectionPhase.on("value", function(snapshot) {
-
-                                if (snapshot.val().p1pick && snapshot.val().p2pick && round === prevRound) {
-
-                                    console.log("results: you chose " + snapshot.val().p2pick + " and your opponent chose " + snapshot.val().p1pick);
-
-
-                                    $("#weaponHolder").prepend("<img id='opponentWeaponImage' src='http://b.illbrown.com/rps/img/" + snapshot.val().p1pick + "_small.png' style='height: 100px ; width: auto'></img>");
-
-                                    $("#opponentWeaponImage").addClass("floatLeft");
-
-                                    console.log(snapshot.val().p1pick + " and  " + snapshot.val().p2pick);
-
-                                    rpsResult(snapshot.val().p1pick, snapshot.val().p2pick);
-
-                                    round ++;
-
-                                }
-                            })
-
-
-
-
-                        }
-
-                    }
-
-                    
-                })
-            
-
-            }
+                nextTurn();
+ 				}
 
         });
-
+        
+        	
 	}
 
 
@@ -438,71 +255,7 @@ enteredRef.on("value", function(snap) {
 
 
 
-function iPicked() {
 
-
-
-
-    $(".ee").remove();
-    $("#waitingRoom").html("<h5 class='animate-flicker'>waiting for opponent's selection...</h5><br><br>");
-
-    $("#weaponHolder").html("<img id='weaponImage' src='http://b.illbrown.com/rps/img/" + myPick + "_small.png' style='height: 100px ; width: auto'></img>");
-
-
-
-
-    if (iAmPlayer === 1) {
-        $("#weaponImage").addClass("floatLeft");
-
-        console.log("awake" + myTies + myWins + myLosses + myPick);
-        var chooser = selectionPhase.update({
-
-            "status": true,
-
-        });
-
-        selectionPhase.update({
-            "p1pick": myPick,
-
-        });
-
-    };
-
-    if (iAmPlayer === 2) {
-        $("#weaponImage").addClass("floatRight");
-
-        console.log("awake" + myTies + myWins + myLosses + myPick);
-
-        var chooser = selectionPhase.update({
-
-            "status": true,
-
-        });
-
-        selectionPhase.update({
-            "p2pick": myPick,
-
-        });
-
-
-
-    };
-
-    selectionPhase.once("value", function(snapshot) {
-
-        if (snapshot.val().status === true) {
-
-            console.log("Selection Phase Started!");
-            selectionPhaseStarted = true;
-
-        }
-
-    })
-
-
-
-
-}
 
 function rpsResult(p1, p2) {
 
