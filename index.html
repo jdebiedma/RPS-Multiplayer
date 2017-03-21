@@ -6,7 +6,7 @@
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
   <!-- Bootstrap CDN-->
-  <link rel="stylesheet" href="https://bootswatch.com/united/bootstrap.min.css">
+  <link id="myStyle" rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
  
 
   <!-- Firebase Reference -->
@@ -57,6 +57,15 @@ text-align: center;
     margin:auto;
     width: 100px;
     margin-top: 10px;
+}
+
+#themeButton {
+
+display:block;
+    margin:auto;
+    width: 100px;
+    margin-top: 10px;
+
 }
 
 .scoreHolder {
@@ -179,8 +188,10 @@ box-shadow:0 0 20px blue;
 <h1 id="titleText">multiplayer rps</h1>
 <br>
 <h6>by juan debiedma</h6>
+	
+<h6 style ="color:purple; font-size: 15px" id="viewerCount">viewers: </h6>
 
-<h6 id="viewerCount">viewers: </h6>
+
 
 <div  id = "waitingRoom">
 	

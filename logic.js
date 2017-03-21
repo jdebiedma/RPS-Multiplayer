@@ -9,6 +9,9 @@ var config = {
 firebase.initializeApp(config);
 
 
+
+
+//$("#myStyle").html('<link id="myStyle" rel="stylesheet" href="https://bootswatch.com/'+myTheme+'/bootstrap.min.css">')
 // Create a variable to reference the database.
 var database = firebase.database();
 
