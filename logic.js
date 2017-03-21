@@ -247,7 +247,20 @@ enteredRef.on("value", function(snap) {
 
     }
 
+    if (playerCount === 2 && began) {
+
+    	if (snap.numChildren() < 3) {
+
+    		alert("Opponent has disconnected!");
+
+    		location.reload();
+
+
+    	}
+    }
+
 })
+
 
 
 
@@ -582,10 +595,10 @@ function nextTurn() {
 
     }
 
-if (thisRound > thisPrevRound) {
-thisPrevRound++;
+	if (thisRound > thisPrevRound) {
+	thisPrevRound++;
 
-};
+	};
 
 }
 
